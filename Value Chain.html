@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Retail Value Chain Decoupling Matrix (21 Functions)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#eef2ff',
+                100: '#e0e7ff',
+                500: '#6366f1',
+                600: '#4f46e5',
+                700: '#4338ca',
+                800: '#3730a3',
+                900: '#312e81',
+                950: '#1e1b4b',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: #0f172a; }
+      ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #475569; }
+      .glass-card {
+        background: rgba(30, 41, 59, 0.75);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .glass-modal {
+        background: rgba(15, 23, 42, 0.94);
+        backdrop-filter: blur(16px);
+      }
+      .card-item {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .card-item:hover {
+        transform: translateY(-2px);
+      }
+      .active-inspect {
+        border-color: #6366f1 !important;
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+      }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <!-- HEADER / EXECUTIVE NAV BAR -->
+    <header class="border-b border-slate-800 bg-slate-900/90 sticky top-0 z-40 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            
+            <!-- BRANDING & TITLE -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-brand-500 to-amber-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-sitemap text-white text-lg"></i>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <h1 id="ui-title" class="text-base font-bold text-white tracking-tight">Matriz de Desacoplamiento de Cadena de Valor</h1>
+                        <span class="px-2 py-0.5 text-[10px] font-semibold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-full">21 Funciones Retail</span>
+                    </div>
+                    <p id="ui-subtitle" class="text-xs text-slate-400">Análisis Operativo de Gobernanza (TCE), Escala y Fricciones de Mercado</p>
+                </div>
+            </div>
+
+            <!-- CONTROLS & BILINGUAL TOGGLE -->
+            <div class="flex items-center space-x-2.5">
+                
+                <!-- BILINGUAL TOGGLE BUTTON -->
+                <button onclick="toggleLanguage()" id="btn-lang-toggle" class="px-3 py-1.5 text-xs font-bold bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border border-indigo-500/40 rounded-xl transition flex items-center space-x-1.5 shadow-sm">
+                    <i class="fa-solid fa-globe text-indigo-400"></i>
+                    <span id="lang-toggle-text">🇲🇽 Español</span>
+                </button>
+
+                <button onclick="autoBenchmark()" id="btn-benchmark" title="Cargar baseline teórico recomendado" class="px-3 py-1.5 text-xs font-bold bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl shadow-md flex items-center space-x-1.5 transition">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> <span class="hidden sm:inline" id="lbl-btn-benchmark">Ajuste Teórico</span>
+                </button>
+                
+                <button onclick="resetMatrix()" id="btn-reset" title="Reiniciar todas las asignaciones" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 transition">
+                    <i class="fa-solid fa-rotate-left"></i> <span class="hidden sm:inline" id="lbl-btn-reset">Reiniciar</span>
+                </button>
+
+                <button onclick="openExecutiveDeckModal()" id="btn-board-slide" title="Generar vista ejecutiva para el Consejo" class="px-3 py-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl shadow-md flex items-center space-x-1.5 transition">
+                    <i class="fa-solid fa-file-powerpoint"></i> <span id="lbl-btn-slide">Diapositiva</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5 space-y-5">
+
+        <!-- DECOUPLING METRICS & BALANCE BAR -->
+        <section class="glass-card rounded-2xl p-4 sm:p-5 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                    <h3 id="lbl-metrics-title" class="text-sm font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-pie text-indigo-400"></i>
+                        <span>Balance Espacial de Desacoplamiento Operativo</span>
+                    </h3>
+                    <p id="lbl-metrics-sub" class="text-xs text-slate-400">Distribución de las 21 Funciones entre Matriz (HQ), Hub Regional y Mercado Destino</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <span id="lbl-assigned-count-tag" class="text-[10px] uppercase font-bold text-slate-400 block">Asignadas</span>
+                        <span id="stat-assigned-count" class="text-base font-black text-indigo-400">0 / 21</span>
+                    </div>
+                    <div class="text-right border-l border-slate-800 pl-4">
+                        <span id="lbl-strategic-alignment" class="text-[10px] uppercase font-bold text-slate-400 block">Alineación Teórica</span>
+                        <span id="score-fit-percent" class="text-base font-black text-emerald-400">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DYNAMIC DISTRIBUTION PROGRESS BAR -->
+            <div class="space-y-1.5">
+                <div class="h-3 w-full bg-slate-900 rounded-full overflow-hidden flex p-0.5 border border-slate-800">
+                    <div id="bar-upstream" style="width: 0%" class="bg-indigo-500 h-full rounded-l-full transition-all duration-300" title="Upstream"></div>
+                    <div id="bar-regional" style="width: 0%" class="bg-amber-500 h-full transition-all duration-300" title="Regional"></div>
+                    <div id="bar-downstream" style="width: 0%" class="bg-emerald-500 h-full rounded-r-full transition-all duration-300" title="Downstream"></div>
+                </div>
+                <div class="flex items-center justify-between text-[11px] font-semibold text-slate-400">
+                    <span class="text-indigo-400 flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500 mr-1.5"></span> <span id="lbl-legend-hq">1. Upstream (Matriz / HQ):</span> <strong id="pct-upstream" class="ml-1 text-slate-200">0 (0%)</strong></span>
+                    <span class="text-amber-400 flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-amber-500 mr-1.5"></span> <span id="lbl-legend-hub">2. Hub Regional:</span> <strong id="pct-regional" class="ml-1 text-slate-200">0 (0%)</strong></span>
+                    <span class="text-emerald-400 flex items-center"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-1.5"></span> <span id="lbl-legend-host">3. Downstream (Destino):</span> <strong id="pct-downstream" class="ml-1 text-slate-200">0 (0%)</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAIN DASHBOARD SPLIT WORKSPACE -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+            
+            <!-- LEFT COLUMN: 21 FUNCTIONS LIST WITH SELECTION TOGGLES -->
+            <div class="lg:col-span-7 space-y-3">
+                
+                <!-- SEARCH & CATEGORY FILTERS -->
+                <div class="glass-card rounded-2xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+                        <input type="text" id="search-input" onkeyup="renderDashboard()" placeholder="Buscar función..." class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500">
+                    </div>
+
+                    <div class="flex items-center space-x-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
+                        <button onclick="setFilter('all')" id="filter-all" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-600 text-white transition">Todas (21)</button>
+                        <button onclick="setFilter('NFR')" id="filter-nfr" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:text-white transition">NFR CapEx</button>
+                        <button onclick="setFilter('FR')" id="filter-fr" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:text-white transition">FR COGS</button>
+                        <button onclick="setFilter('General')" id="filter-gen" class="filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:text-white transition">Estrategia</button>
+                    </div>
+                </div>
+
+                <!-- CARDS LIST -->
+                <div id="functions-list-container" class="space-y-2.5 max-h-[720px] overflow-y-auto pr-1">
+                    <!-- Dynamic 21 Function Cards -->
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: DYNAMIC CONSEQUENCES & TRADE-OFF INSPECTOR -->
+            <div class="lg:col-span-5 space-y-4">
+                
+                <div class="glass-card rounded-2xl p-5 border-t-4 border-indigo-500 space-y-4 sticky top-20 shadow-2xl">
+                    
+                    <!-- INSPECTOR HEADER -->
+                    <div class="border-b border-slate-800 pb-3 flex items-center justify-between">
+                        <div>
+                            <span id="lbl-inspector-tag" class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest block">Panel de Inspección de Consecuencias</span>
+                            <h3 id="inspect-func-title" class="text-base font-bold text-white leading-snug">Selecciona una función para analizar</h3>
+                        </div>
+                        <span id="inspect-func-id-badge" class="px-2 py-1 text-xs font-bold rounded-md bg-slate-800 text-slate-400 border border-slate-700">F-00</span>
+                    </div>
+
+                    <!-- CURRENT ASSIGNMENT CHOICE BADGE -->
+                    <div class="flex items-center justify-between bg-slate-900/90 p-3 rounded-xl border border-slate-800">
+                        <span id="lbl-inspect-current-choice" class="text-xs text-slate-400 font-medium">Ubicación Seleccionada:</span>
+                        <span id="inspect-choice-status" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-400">Sin Asignar</span>
+                    </div>
+
+                    <!-- CONSEQUENCES & TRADE-OFFS MATRIX FOR ALL 3 LOCATIONS -->
+                    <div class="space-y-3">
+                        <h4 id="lbl-consequences-matrix-head" class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center">
+                            <i class="fa-solid fa-scale-balanced text-amber-400 mr-2"></i>
+                            <span>Matriz Comparativa de Consecuencias</span>
+                        </h4>
+
+                        <!-- UPSTREAM CONSEQUENCES BOX -->
+                        <div id="box-cons-upstream" class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 space-y-2 transition-all">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-indigo-400 flex items-center">
+                                    <span class="w-2 h-2 rounded-full bg-indigo-500 mr-1.5"></span> 1. Upstream (Matriz / HQ)
+                                </span>
+                                <span id="badge-opt-upstream" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 hidden">Baseline Recomendado</span>
+                            </div>
+                            <div class="text-xs space-y-1.5 text-slate-300">
+                                <p><strong class="text-emerald-400 font-semibold" id="lbl-upstream-pros">🟢 Ventajas:</strong> <span id="cons-upstream-pros" class="text-slate-300">-</span></p>
+                                <p><strong class="text-rose-400 font-semibold" id="lbl-upstream-cons">🔴 Riesgos:</strong> <span id="cons-upstream-cons" class="text-slate-300">-</span></p>
+                                <p class="text-[11px] text-slate-400 pt-1 border-t border-slate-800/60"><strong class="text-indigo-300 font-semibold" id="lbl-upstream-tce">💡 Racional ECT:</strong> <span id="cons-upstream-tce" class="text-slate-400">-</span></p>
+                            </div>
+                        </div>
+
+                        <!-- HUB REGIONAL CONSEQUENCES BOX -->
+                        <div id="box-cons-regional" class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 space-y-2 transition-all">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-amber-400 flex items-center">
+                                    <span class="w-2 h-2 rounded-full bg-amber-500 mr-1.5"></span> 2. Hub Regional
+                                </span>
+                                <span id="badge-opt-regional" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30 hidden">Baseline Recomendado</span>
+                            </div>
+                            <div class="text-xs space-y-1.5 text-slate-300">
+                                <p><strong class="text-emerald-400 font-semibold" id="lbl-hub-pros">🟢 Ventajas:</strong> <span id="cons-regional-pros" class="text-slate-300">-</span></p>
+                                <p><strong class="text-rose-400 font-semibold" id="lbl-hub-cons">🔴 Riesgos:</strong> <span id="cons-regional-cons" class="text-slate-300">-</span></p>
+                                <p class="text-[11px] text-slate-400 pt-1 border-t border-slate-800/60"><strong class="text-amber-300 font-semibold" id="lbl-hub-tce">💡 Racional ECT:</strong> <span id="cons-regional-tce" class="text-slate-400">-</span></p>
+                            </div>
+                        </div>
+
+                        <!-- DOWNSTREAM CONSEQUENCES BOX -->
+                        <div id="box-cons-downstream" class="bg-slate-900/80 p-3.5 rounded-xl border border-slate-800 space-y-2 transition-all">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-emerald-400 flex items-center">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 mr-1.5"></span> 3. Downstream (Mercado Destino)
+                                </span>
+                                <span id="badge-opt-downstream" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 hidden">Baseline Recomendado</span>
+                            </div>
+                            <div class="text-xs space-y-1.5 text-slate-300">
+                                <p><strong class="text-emerald-400 font-semibold" id="lbl-host-pros">🟢 Ventajas:</strong> <span id="cons-downstream-pros" class="text-slate-300">-</span></p>
+                                <p><strong class="text-rose-400 font-semibold" id="lbl-host-cons">🔴 Riesgos:</strong> <span id="cons-downstream-cons" class="text-slate-300">-</span></p>
+                                <p class="text-[11px] text-slate-400 pt-1 border-t border-slate-800/60"><strong class="text-emerald-300 font-semibold" id="lbl-host-tce">💡 Racional ECT:</strong> <span id="cons-downstream-tce" class="text-slate-400">-</span></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- EXECUTIVE BOARD DECK SUMMARY MODAL -->
+    <div id="modal-board" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 glass-modal overflow-y-auto">
+        <div class="glass-card rounded-2xl max-w-4xl w-full border border-slate-700 p-6 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeBoardModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- BOARD SLIDE HEADER -->
+            <div class="border-b border-slate-800 pb-4 space-y-1">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Merco Board Executive Slide Deck</span>
+                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">21 Functions Baseline</span>
+                </div>
+                <h2 id="lbl-board-modal-title" class="text-xl font-black text-white tracking-tight">Diapositiva Ejecutiva de Configuración de la Cadena de Valor</h2>
+            </div>
+
+            <!-- LAYER 1: EXECUTIVE C-SUITE SUMMARY -->
+            <div class="space-y-4">
+                <div class="flex items-center space-x-2">
+                    <span id="lbl-board-layer1" class="px-2.5 py-1 text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-md">Capa 1: Resumen Ejecutivo para la Alta Dirección</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase" id="lbl-modal-stat-hq">1. Matriz (HQ)</span>
+                        <div id="board-stat-upstream" class="text-lg font-black text-indigo-400">0 Funciones (0%)</div>
+                        <p class="text-[11px] text-slate-400" id="lbl-modal-stat-hq-sub">TI centralizada, marca propia y compras NFR CapEx.</p>
+                    </div>
+
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase" id="lbl-modal-stat-hub">2. Hub Regional</span>
+                        <div id="board-stat-regional" class="text-lg font-black text-amber-400">0 Funciones (0%)</div>
+                        <p class="text-[11px] text-slate-400" id="lbl-modal-stat-hub-sub">Centro logístico intermedio de amortiguamiento.</p>
+                    </div>
+
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-[10px] font-bold text-slate-400 uppercase" id="lbl-modal-stat-host">3. Destino (Host)</span>
+                        <div id="board-stat-downstream" class="text-lg font-black text-emerald-400">0 Funciones (0%)</div>
+                        <p class="text-[11px] text-slate-400" id="lbl-modal-stat-host-sub">Operación en tienda, perecederos y RH locales.</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider flex items-center">
+                        <i class="fa-solid fa-bullseye text-indigo-400 mr-2"></i> <span id="lbl-modal-summary-head">Síntesis Estratégica de Gobernanza</span>
+                    </h4>
+                    <p id="board-punchline-text" class="text-xs text-slate-300 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <!-- LAYER 2: TECHNICAL ANNEX TABLE -->
+            <div class="space-y-3 pt-2">
+                <div class="flex items-center justify-between">
+                    <span id="lbl-board-layer2" class="px-2.5 py-1 text-xs font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 rounded-md">Capa 2: Anexo Técnico — Matriz de 21 Funciones</span>
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-800">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-900 text-slate-400 font-semibold border-b border-slate-800">
+                                <th class="p-2.5">ID & Función</th>
+                                <th class="p-2.5">Tipo</th>
+                                <th class="p-2.5">Ubicación Asignada</th>
+                                <th class="p-2.5">Consecuencia Operativa Principal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="board-table-body" class="divide-y divide-slate-800/60 bg-slate-950/50 text-slate-300">
+                            <!-- Dynamic Rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MODAL ACTIONS -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-800">
+                <span class="text-xs text-slate-400" id="lbl-modal-footer">Formato listo para exportación o impresión en PDF.</span>
+                <div class="flex items-center space-x-2">
+                    <button onclick="window.print()" class="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-print"></i> <span id="lbl-btn-print">Imprimir / Guardar PDF</span>
+                    </button>
+                    <button onclick="copyBoardDeckText()" id="btn-copy-board" class="px-4 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition flex items-center space-x-1.5">
+                        <i class="fa-solid fa-copy"></i> <span id="lbl-btn-copy-text">Copiar Texto Ejecutivo</span>
+                    </button>
+                    <button onclick="closeBoardModal()" class="px-4 py-2 text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & COMPLETE DATA MODEL -->
+    <script>
+        // UI TEXT DICTIONARY
+        const uiText = {
+            es: {
+                title: "Matriz de Desacoplamiento de Cadena de Valor",
+                subtitle: "Análisis Operativo de Gobernanza (TCE), Escala y Fricciones de Mercado",
+                btnBenchmark: "Ajuste Teórico",
+                btnReset: "Reiniciar",
+                btnSlide: "Diapositiva",
+                metricsTitle: "Balance Espacial de Desacoplamiento Operativo",
+                metricsSub: "Distribución de las 21 Funciones entre Matriz (HQ), Hub Regional y Mercado Destino",
+                assignedCountTag: "Asignadas",
+                strategicAlignment: "Alineación Teórica",
+                legendHq: "1. Upstream (Matriz / HQ):",
+                legendHub: "2. Hub Regional:",
+                legendHost: "3. Downstream (Destino):",
+                searchPlaceholder: "Buscar función...",
+                filterAll: "Todas (21)",
+                inspectorTag: "Panel de Inspección de Consecuencias",
+                inspectDefaultTitle: "Selecciona una función para analizar",
+                inspectCurrentChoice: "Ubicación Seleccionada:",
+                unassigned: "Sin Asignar",
+                consequencesHead: "Matriz Comparativa de Consecuencias",
+                pros: "🟢 Ventajas:",
+                cons: "🔴 Riesgos:",
+                tce: "💡 Racional ECT:",
+                optRecommended: "Baseline Recomendado",
+                btnOptUpstream: "1. Matriz (HQ)",
+                btnOptRegional: "2. Hub Regional",
+                btnOptDownstream: "3. Destino (Host)",
+                boardModalTitle: "Diapositiva Ejecutiva de Configuración de la Cadena de Valor",
+                boardLayer1: "Capa 1: Resumen Ejecutivo para la Alta Dirección",
+                boardLayer2: "Capa 2: Anexo Técnico — Matriz de 21 Funciones",
+                modalStatHq: "1. Matriz (HQ)",
+                modalStatHqSub: "TI centralizada, marca propia y compras NFR CapEx.",
+                modalStatHub: "2. Hub Regional",
+                modalStatHubSub: "Centro logístico intermedio de amortiguamiento.",
+                modalStatHost: "3. Destino (Host)",
+                modalStatHostSub: "Operación en tienda, perecederos y RH locales.",
+                modalSummaryHead: "Síntesis Estratégica de Gobernanza",
+                modalFooter: "Formato listo para exportación o impresión en PDF.",
+                btnPrint: "Imprimir / Guardar PDF",
+                btnCopyText: "Copiar Texto Ejecutivo",
+                copiedToast: "¡Texto resumido copiado al portapapeles!"
+            },
+            en: {
+                title: "Value Chain Decoupling Matrix",
+                subtitle: "Operational Governance (TCE), Scale & Market Friction Analysis",
+                btnBenchmark: "Theoretical Fit",
+                btnReset: "Reset Matrix",
+                btnSlide: "Board Slide",
+                metricsTitle: "Operational Decoupling Spatial Balance",
+                metricsSub: "Allocation of 21 Retail Functions across HQ, Regional Hub & Host Market",
+                assignedCountTag: "Assigned",
+                strategicAlignment: "Theoretical Alignment",
+                legendHq: "1. Upstream (Matriz / HQ):",
+                legendHub: "2. Regional Hub:",
+                legendHost: "3. Downstream (Host):",
+                searchPlaceholder: "Search function...",
+                filterAll: "All (21)",
+                inspectorTag: "Consequences Inspection Panel",
+                inspectDefaultTitle: "Select a function to analyze",
+                inspectCurrentChoice: "Selected Location:",
+                unassigned: "Unassigned",
+                consequencesHead: "Comparative Consequences Matrix",
+                pros: "🟢 Benefits:",
+                cons: "🔴 Risks:",
+                tce: "💡 TCE Rationale:",
+                optRecommended: "Recommended Baseline",
+                btnOptUpstream: "1. Matriz (HQ)",
+                btnOptRegional: "2. Regional Hub",
+                btnOptDownstream: "3. Host (Destino)",
+                boardModalTitle: "Executive Value Chain Configuration Slide",
+                boardLayer1: "Layer 1: C-Suite Executive Summary",
+                boardLayer2: "Layer 2: Technical Annex — 21 Function Matrix",
+                modalStatHq: "1. Matriz (HQ)",
+                modalStatHqSub: "Centralized IT, private label R&D, and NFR CapEx.",
+                modalStatHub: "2. Regional Hub",
+                modalStatHubSub: "Intermediate logistics staging and customs hub.",
+                modalStatHost: "3. Host Market",
+                modalStatHostSub: "Store operations, fresh food sourcing, and local HR.",
+                modalSummaryHead: "Strategic Governance Synthesis",
+                modalFooter: "Format ready for export or PDF printing.",
+                btnPrint: "Print / Save PDF",
+                btnCopyText: "Copy Executive Deck Text",
+                copiedToast: "Executive summary copied to clipboard!"
+            }
+        };
+
+        // 21 RETAIL VALUE CHAIN FUNCTIONS CATALOG
+        const valueChainFunctions = [
+            {
+                id: 1,
+                category: "NFR",
+                optimalZone: "upstream",
+                name: { es: "ERP Corporativo y Sistemas de Información", en: "Enterprise ERP & IT Infrastructure" },
+                desc: { es: "Base de datos POS, software financiero y control de inventarios.", en: "POS database architecture, financial software, and inventory control." },
+                upstream: {
+                    pros: { es: "Economías de escala masivas en licencias; estandarización total de datos y control financiero centralizado.", en: "Massive scale economies in licensing; total data standardization and centralized financial control." },
+                    cons: { es: "Menor velocidad de respuesta ante cambios fiscales o normativos del país destino.", en: "Slower adaptation velocity to specific host country tax code patches or local regulations." },
+                    tce: { es: "Alta especificidad de activo informático. Minimiza el riesgo de oportunismo y duplicación de costos.", en: "High information asset specificity. Centralization at HQ minimizes hold-up and redundant costs." }
+                },
+                regional: {
+                    pros: { es: "Soporte técnico con menor latencia y flexibilidad para parches regulatorios del clúster regional.", en: "Lower technical latency support and regional cluster regulatory patch flexibility." },
+                    cons: { es: "Costos de infraestructura y servidores redundantes entre la matriz y el hub.", en: "Redundant server infrastructure and licensing costs between HQ and regional hub." },
+                    tce: { es: "Adecuado únicamente si varios países vecinos comparten reglas tributarias idénticas.", en: "Suitable only if neighboring host countries share identical tax and data privacy frameworks." }
+                },
+                downstream: {
+                    pros: { es: "Adaptación ultra rápida a requerimientos de punto de venta (POS) y regulaciones locales.", en: "Ultra-fast local point-of-sale (POS) software customization and local regulatory compliance." },
+                    cons: { es: "Fragmentación de datos, incapacidad de consolidar balances en tiempo real y licencias costosas.", en: "Data fragmentation, inability to consolidate real-time group balances, and high unit license costs." },
+                    tce: { es: "Alto riesgo de oportunismo de proveedores de software local y pérdida de gobernanza central.", en: "High risk of local vendor opportunism and total loss of central corporate governance." }
+                }
+            },
+            {
+                id: 2,
+                category: "FR",
+                optimalZone: "upstream",
+                name: { es: "Desarrollo y Formulación de Marca Propia", en: "Private-Label R&D & Branding" },
+                desc: { es: "Diseño de empaques, control de calidad y recetas 'Merco Selección'.", en: "Packaging design, quality standards, and 'Merco Selección' formulations." },
+                upstream: {
+                    pros: { es: "Protección estricta de fórmulas y recetas; maximiza economías de volumen en empaques.", en: "Strict formulation protection; maximizes volume scale economies in master packaging." },
+                    cons: { es: "Riesgo de desconexión con los hábitos alimenticios y sabores culturales del país destino.", en: "Risk of disconnection with specific host country culinary habits and local taste preferences." },
+                    tce: { es: "Preserva la propiedad intelectual táctica y evita la copia por parte de maquiladores extranjeros.", en: "Protects tacit IP and prevents formula copying by foreign third-party co-packers." }
+                },
+                regional: {
+                    pros: { es: "Adaptación de sabores a nivel sub-regional (ej. Centroamérica o Región Andina).", en: "Flavor profile adaptation across sub-regional consumer clusters." },
+                    cons: { es: "Duplicación parcial de laboratorios de pruebas y equipos de diseño gráfico.", en: "Partial duplication of R&D testing labs and packaging design teams." },
+                    tce: { es: "Balance ideal cuando los mercados receptores comparten preferencias gastronómicas afines.", en: "Optimal balance when target markets share similar regional dietary preferences." }
+                },
+                downstream: {
+                    pros: { es: "Sabor 100% adaptado al paladar local y reacción inmediata a tendencias del consumidor.", en: "100% local palate matching and instant reaction to host market food trends." },
+                    cons: { es: "Erosión de márgenes brutos por pérdida de escala y posible fuga de recetas secretas.", en: "Gross margin erosion due to scale loss and potential leakage of proprietary recipes." },
+                    tce: { es: "Alta vulnerabilidad a la expropiación de marca o copia de fórmulas por proveedores locales.", en: "High vulnerability to brand expropriation or recipe replication by local suppliers." }
+                }
+            },
+            {
+                id: 3,
+                category: "NFR",
+                optimalZone: "upstream",
+                name: { es: "Compras Globales de Equipamiento NFR", en: "Global NFR Equipment Procurement" },
+                desc: { es: "Adquisición masiva de estanterías, cajas y motores de frío.", en: "Bulk purchasing of store fixtures, checkout lanes, and refrigeration units." },
+                upstream: {
+                    pros: { es: "Reducción del CapEx por tienda (20-30%) mediante licitaciones masivas internacionales.", en: "Reduces per-store CapEx by 20-30% via bulk international equipment sourcing." },
+                    cons: { es: "Tiempos de flete marítimo largos y pago de aranceles de importación.", en: "Long maritime transit lead times and host country CapEx import tariffs." },
+                    tce: { es: "Alta especificidad de activo físico estandarizado. Maximiza poder negociador corporativo.", en: "High standardized physical asset specificity. Maximizes corporate buyer bargaining power." }
+                },
+                regional: {
+                    pros: { es: "Stock de repuestos disponible rápidamente para mantenimiento de tiendas del corredor.", en: "Equipment spare parts staging buffer for quick store maintenance dispatch." },
+                    cons: { es: "Costos de bodegaje intermedio y doble manipulación logística de maquinaria pesada.", en: "Intermediate warehousing holding costs and double-handling heavy machinery." },
+                    tce: { es: "Reduce el tiempo de paro operativo en tienda (hold-up) ante fallas de refrigeración.", en: "Reduces operational store hold-up risk caused by critical equipment failures." }
+                },
+                downstream: {
+                    pros: { es: "Entrega e instalación inmediata de mobiliario por proveedores locales sin aranceles.", en: "Immediate delivery and setup by local vendors with zero international customs tariffs." },
+                    cons: { es: "CapEx elevado por unidad, inconsistencia visual de tienda y menor vida útil del equipo.", en: "High unit CapEx, store visual inconsistency, and shorter equipment lifespan." },
+                    tce: { es: "Alta dependencia y poder de extorsión de proveedores locales de mobiliario.", en: "High dependency and pricing hold-up power held by local equipment suppliers." }
+                }
+            },
+            {
+                id: 4,
+                category: "FR",
+                optimalZone: "upstream",
+                name: { es: "Negociación Marco con Multinacionales FMCG", en: "FMCG Master Vendor Contracting" },
+                desc: { es: "Contratación corporativa de rebates y plazos con Nestlé, P&G, Unilever.", en: "Group master contracting for volume rebates with Nestlé, P&G, Unilever." },
+                upstream: {
+                    pros: { es: "Máximo poder de negociación por volumen global con los mayores fabricantes de CPG.", en: "Maximum global volume buyer power against Tier-1 CPG conglomerates." },
+                    cons: { es: "Conflictos con filiales locales del proveedor por asignación de márgenes regionales.", en: "Frictions with local vendor subsidiaries over regional margin allocation." },
+                    tce: { es: "Minimiza costos de transacción al negociar un solo contrato marco corporativo.", en: "Minimizes transaction search and bargaining costs via a single global master contract." }
+                },
+                regional: {
+                    pros: { es: "Negociación ajustada a bloques comerciales regionales (ej. MERCOSUR / CAFTA).", en: "Contracting tuned to regional trade blocks and cross-border distribution agreements." },
+                    cons: { es: "Fragmentación del volumen total negociado por el grupo.", en: "Splits total group volume, slightly reducing top-tier rebate percentages." },
+                    tce: { es: "Eficaz cuando los proveedores multinacionales operan con divisiones territoriales cerradas.", en: "Effective when global vendors enforce strict territorial subsidiary boundaries." }
+                },
+                downstream: {
+                    pros: { es: "Excelente relación comercial local y rápida atención a quiebres de stock en tienda.", en: "Strong local relationship with distributors and fast shelf restock response." },
+                    cons: { es: "Pérdida total del poder de compra del grupo; costo por unidad sensiblemente mayor.", en: "Total loss of group buying power; significantly higher unit procurement costs." },
+                    tce: { es: "Alta asimetría de poder a favor del distribuidor exclusivo local de marcas líderes.", en: "High power asymmetry favoring host market exclusive brand distributors." }
+                }
+            },
+            {
+                id: 5,
+                category: "General",
+                optimalZone: "upstream",
+                name: { es: "Arquitectura de Precios y Margen Objetivo", en: "High-Level Pricing & Margins Architecture" },
+                desc: { es: "Reglas de margen bruto, bandas de descuento y metas EBITDAR.", en: "Gross margin rules, hard-discount pricing bands, and EBITDAR targets." },
+                upstream: {
+                    pros: { es: "Protege la promesa de valor 'Hard Discount' y mantiene disciplina financiera estricta.", en: "Protects the hard-discount value proposition and enforces strict group financial discipline." },
+                    cons: { es: "Rigidez de precios ante episodios de inflación acelerada o guerras de precios locales.", en: "Price rigidity during sudden local hyperinflation bursts or localized price wars." },
+                    tce: { es: "Mecanismo clave de control para evitar que gerentes locales comprometan los márgenes.", en: "Core control mechanism preventing local agency opportunism from eroding corporate margins." }
+                },
+                regional: {
+                    pros: { es: "Ajuste de bandas de precio según paridad de poder adquisitivo del bloque regional.", en: "Pricing band adjustment aligned with regional purchasing power parity (PPP)." },
+                    cons: { es: "Complejidad para coordinar algoritmos de precios entre múltiples países.", en: "Increased complexity in harmonizing multi-currency pricing algorithms." },
+                    tce: { es: "Equilibrio entre control corporativo y variaciones de tipo de cambio regional.", en: "Balances corporate margin governance with regional currency volatility." }
+                },
+                downstream: {
+                    pros: { es: "Reacción instantánea a las promociones agresivas de competidores de la misma calle.", en: "Instant tactical response to localized competitor price cuts on the same street." },
+                    cons: { es: "Riesgo de guerras de precios destructivas que erosionen la rentabilidad global.", en: "High risk of destructive local price wars destroying store EBITDAR viability." },
+                    tce: { es: "Alto riesgo de desalineación estratégica con las metas de retorno del Consejo.", en: "High risk of strategic drift and misalignment with Board ROI mandates." }
+                }
+            },
+            {
+                id: 6,
+                category: "General",
+                optimalZone: "regional",
+                name: { es: "Almacenamiento y Logística Primaria Hub", en: "Centralized Hub Warehousing" },
+                desc: { es: "Centro de distribución regional y almacenamiento frío de amortiguamiento.", en: "Regional staging hub distribution center and cold-chain buffer storage." },
+                upstream: {
+                    pros: { es: "Consolidación total de inventario en origen; cero costo de almacenamiento en el extranjero.", en: "Total inventory staging at origin HQ; zero foreign warehouse capital investment." },
+                    cons: { es: "Vulnerabilidad extrema a interrupciones portuarias y tiempos de tránsito largos.", en: "Extreme vulnerability to maritime port bottlenecks and long transit times." },
+                    tce: { es: "Minimiza inversión inmobiliaria en destino pero eleva el riesgo de quiebre de stock.", en: "Minimizes foreign real estate CapEx but maximizes out-of-stock risk." }
+                },
+                regional: {
+                    pros: { es: "Amortiguador logístico ideal para absorción de demoras aduaneras o insulares.", en: "Ideal staging buffer absorbing port delays, customs holds, and island transit risks." },
+                    cons: { es: "Requerimiento de capital para operar un Centro de Distribución intermedio.", en: "CapEx and OpEx required to staff and run an intermediate staging warehouse." },
+                    tce: { es: "Reduce drásticamente la incertidumbre de suministro en mercados volátiles.", en: "Drastically reduces supply uncertainty costs across multi-country clusters." }
+                },
+                downstream: {
+                    pros: { es: "Despacho ultra rápido a las tiendas del país en menos de 12 horas.", en: "Ultra-fast direct store replenishment in under 12 hours." },
+                    cons: { es: "Multiplicación de costos fijos de almacenes y riesgo de inventario obsoleto local.", en: "High fixed warehouse costs duplicated per country and local stock obsolescence." },
+                    tce: { es: "Alta inversión en activos inmobiliarios específicos en cada mercado de destino.", en: "High asset specificity investment locked into individual host country real estate." }
+                }
+            },
+            {
+                id: 7,
+                category: "General",
+                optimalZone: "upstream",
+                name: { es: "Analítica de Datos de Clientes y Lealtad", en: "Customer Data Analytics & Loyalty Program" },
+                desc: { es: "Modelos predictivos, minería de datos y programa de fidelización.", en: "Machine learning basket analysis, data mining, and loyalty mechanics." },
+                upstream: {
+                    pros: { es: "Algoritmos avanzados centralizados en científicos de datos de alto nivel en HQ.", en: "Centralizes advanced machine learning pipelines with top-tier HQ data scientists." },
+                    cons: { es: "Posible ceguera ante matices culturales en hábitos de compra del consumidor local.", en: "Potential blind spots regarding subtle local shopping cultural nuances." },
+                    tce: { es: "Alta especificidad de capital humano analítico; concentrarlo evita costos duplicados.", en: "High human asset specificity; centralization avoids redundant data science teams." }
+                },
+                regional: {
+                    pros: { es: "Segmentación por perfiles sociodemográficos compartidos en el bloque geográfico.", en: "Shopper segmentation tailored to shared regional sociodemographic profiles." },
+                    cons: { es: "Requiere coordinar flujos de datos transfronterizos cumpliendo regulaciones locales.", en: "Requires managing cross-border data transfer compliance across countries." },
+                    tce: { es: "Optimización del conocimiento del cliente en mercados con comportamientos afines.", en: "Optimizes customer knowledge across markets with similar shopping habits." }
+                },
+                downstream: {
+                    pros: { es: "Comprensión profunda de modismos, festividades e impulsos de compra locales.", en: "Deep understanding of neighborhood nuances, local holidays, and buying triggers." },
+                    cons: { es: "Sistemas analíticos rudimentarios y falta de visión global del Customer Lifetime Value.", en: "Rudimentary data tools and loss of consolidated Customer Lifetime Value insights." },
+                    tce: { es: "Fragmentación y pérdida de valor del activo de información corporativo.", en: "Severe fragmentation and value loss of corporate data assets." }
+                }
+            },
+            {
+                id: 8,
+                category: "NFR",
+                optimalZone: "upstream",
+                name: { es: "Diseño de Formato de Tienda y Prototipo", en: "Master Store Format & Blueprints" },
+                desc: { es: "Arquitectura de prototipo (800 m²), layout y flujo de compra.", en: "Store prototype engineering (800 m² layout), floor flow, and visual standards." },
+                upstream: {
+                    pros: { es: "Replicación exacta del prototipo de alta eficiencia y flujo de clientes probado.", en: "Exact replication of high-efficiency, proven store layout and shopper flow." },
+                    cons: { es: "Dificultad para encajar en terrenos urbanos irregulares o cascos históricos.", en: "Rigidity when fitting into irregular urban plots or historic city centers." },
+                    tce: { es: "Preserva la identidad de marca táctica y la eficiencia operativa estandarizada.", en: "Protects core brand identity and standardized operational flow efficiency." }
+                },
+                regional: {
+                    pros: { es: "Modificación del prototipo para adaptarse a normas de construcción del bloque regional.", en: "Prototype adaptation fitting regional construction materials and building codes." },
+                    cons: { es: "Desviación leve del estándar global de eficiencia de metros cuadrados.", en: "Minor drift from the global sales-per-square-meter efficiency baseline." },
+                    tce: { es: "Flexibilidad controlada para normativas urbanas regionales.", en: "Controlled flexibility accommodating regional municipal urban planning rules." }
+                },
+                downstream: {
+                    pros: { es: "Diseño 100% a la medida del terreno y regulaciones de construcción de la alcaldía.", en: "100% tailored design matching specific municipal plot shapes and codes." },
+                    cons: { es: "Costos de arquitectura disparados y pérdida del diseño de experiencia Merco.", en: "Architectural costs skyrocket; loss of uniform Merco brand experience." },
+                    tce: { es: "Destrucción de la especificidad y economía de escala del prototipo de tienda.", en: "Destroys the format asset specificity and scale economies of the store prototype." }
+                }
+            },
+            {
+                id: 9,
+                category: "General",
+                optimalZone: "upstream",
+                name: { es: "Tesorería Corporativa y Asignación de Capital", en: "Corporate Capital Allocation & Treasury" },
+                desc: { es: "Gestión de caja global, coberturas cambiarias (FX) y repatriación de utilidades.", en: "Group liquidity management, FX hedging, and dividend repatriation." },
+                upstream: {
+                    pros: { es: "Control absoluto sobre la liquidez global, coberturas cambiarias y giros de utilidades.", en: "Absolute control over group liquidity, FX risk hedging, and dividend flows." },
+                    cons: { es: "Lentitud en la aprobación de fondos de emergencia para necesidades locales.", en: "Slower approval turnaround for emergency local operational cash demands." },
+                    tce: { es: "Previene el secuestro de capital por parte de filiales o socios extranjeros.", en: "Prevents financial capital hold-up by foreign subsidiaries or JV partners." }
+                },
+                regional: {
+                    pros: { es: "Manejo eficiente de flujos de caja en monedas regionales enlazadas.", en: "Efficient cash pooling across linked regional currencies." },
+                    cons: { es: "Sujeto a regulaciones bancarias y tributarias intermedias.", en: "Exposed to intermediate regional banking regulations and withholding taxes." },
+                    tce: { es: "Facilita transacciones financieras dentro de acuerdos de integración económica.", en: "Facilitates financial clearing within regional economic integration trade zones." }
+                },
+                downstream: {
+                    pros: { es: "Autonomía financiera total de la filial para reinvertir caja operativa sin esperas.", en: "Total subsidiary cash autonomy to reinvest operational cash flow instantly." },
+                    cons: { es: "Alto riesgo de pérdidas cambiarias (devaluación) y bloqueos a la repatriación.", en: "High exposure to local currency devaluation and government capital controls." },
+                    tce: { es: "Vulnerabilidad extrema a trabas cambiarias locales y expropiaciones financieras.", en: "Extreme vulnerability to local exchange controls and financial hold-up." }
+                }
+            },
+            {
+                id: 10,
+                category: "General",
+                optimalZone: "downstream",
+                name: { es: "Ubicación y Negociación Inmobiliaria", en: "Local Store Real Estate & Site Scouting" },
+                desc: { es: "Identificación de predios, tráfico peatonal y contratos de arrendamiento.", en: "Site scouting, pedestrian traffic evaluation, and lease negotiations." },
+                upstream: {
+                    pros: { es: "Aprobación financiera centralizada basada en métricas estrictas de ROI/CapEx.", en: "Centralized financial approval enforcing strict CapEx/ROI hurdles." },
+                    cons: { es: "Desconocimiento de flujos peatonales reales, zonas de riesgo o valor de la tierra.", en: "Blindness regarding local foot traffic patterns, crime spots, or real land value." },
+                    tce: { es: "Previene compra de terrenos sobrevalorados pero arriesga elegir ubicaciones pésimas.", en: "Prevents land overpayment but risks selecting non-viable store locations." }
+                },
+                regional: {
+                    pros: { es: "Supervisión de expansión inmobiliaria por directores que conocen el mercado vecino.", en: "Real estate oversight by regional expansion directors with neighboring market experience." },
+                    cons: { es: "Sigue requiriendo agentes y gestores inmobiliarios en cada ciudad destino.", en: "Still requires local real estate brokers and municipal zoning expediters." },
+                    tce: { es: "Mitiga errores de inversión mediante comités regionales de bienes raíces.", en: "Mitigates site selection blunders via regional real estate investment committees." }
+                },
+                downstream: {
+                    pros: { es: "Acceso inmediato a la red de contactos local y mejores esquemas de arrendamiento.", en: "Immediate access to local real estate networks and flexible lease terms." },
+                    cons: { es: "Riesgo de especulación o corrupción inmobiliaria por agentes locales.", en: "Risk of local broker conflict of interest or land title irregularities." },
+                    tce: { es: "Alta especificidad de sitio. Exige salvaguardas contractuales locales estrictas.", en: "High site asset specificity. Demands strict local legal safeguards against lease hold-up." }
+                }
+            },
+            {
+                id: 11,
+                category: "FR",
+                optimalZone: "downstream",
+                name: { es: "Abastecimiento de Perecederos y Frutas FR", en: "Fresh Food & Perishables Sourcing" },
+                desc: { es: "Contratación de agricultores locales, avícolas y lácteos frescos.", en: "Direct contracting with local produce growers, poultry farms, and fresh dairies." },
+                upstream: {
+                    pros: { es: "Intento de compra masiva consolidada en volumen de granos o enlatados.", en: "Bulk volume purchasing attempt for non-perishable grains or canned staples." },
+                    cons: { es: "Inviable para frutas, verduras y carnes; roturas masivas por tiempo y frío.", en: "Unviable for fresh produce; massive stock loss due to transit times and cold chain breakdown." },
+                    tce: { es: "La distancia geográfica y perecederidad destruyen el valor del producto si se centraliza.", en: "Geographic distance and high perishability destroy product value if centralized." }
+                },
+                regional: {
+                    pros: { es: "Compras consolidadas en cuencas agrícolas transfronterizas compartidas.", en: "Consolidated sourcing from shared cross-border agricultural valleys." },
+                    cons: { es: "Riesgo de inspecciones fitosanitarias prolongadas en pasos fronterizos.", en: "Exposure to prolonged border health and quarantine clearance delays." },
+                    tce: { es: "Funciona únicamente para productos agrícolas con vida útil media.", en: "Works only for agricultural commodities with moderate shelf-life stability." }
+                },
+                downstream: {
+                    pros: { es: "Alimentos 100% frescos, cero riesgo de interrupción marítima y apoyo local.", en: "100% fresh produce, zero maritime freight risk, and local farmer goodwill." },
+                    cons: { es: "Volatilidad de precios según clima local y poder de negociación limitado.", en: "Price volatility driven by local weather and limited buyer bargaining leverage." },
+                    tce: { es: "Minimiza el costo de transacción de la perecederidad y se adapta al hábito local.", en: "Minimizes perishability transaction costs and matches local dietary preferences." }
+                }
+            },
+            {
+                id: 12,
+                category: "FR",
+                optimalZone: "downstream",
+                name: { es: "Trámites de Aduana y Registros Sanitarios", en: "Import Customs & Health Registrations" },
+                desc: { es: "Permisos de importación, registros FDA/Salud y agentes aduanales.", en: "Import permits, food safety approvals, and customs broker management." },
+                upstream: {
+                    pros: { es: "Preparación estandarizada de expedientes de homologación desde legal HQ.", en: "Standardized technical dossier preparation by corporate legal department." },
+                    cons: { es: "Desconocimiento de criterios burocráticos locales que pueden retener contenedores.", en: "Ignorance of local bureaucratic practices that can hold containers for months." },
+                    tce: { es: "Ineficiencia operativa severa por falta de conocimiento institucional del país.", en: "Severe operational failure caused by lack of local institutional knowledge." }
+                },
+                regional: {
+                    pros: { es: "Agentes aduanales dedicados a simplificar pasos en el corredor regional.", en: "Dedicated customs brokers streamlining border crossings along regional corridors." },
+                    cons: { es: "Requiere gestionar múltiples autoridades sanitarias nacionales a la vez.", en: "Requires managing multiple national sanitary inspection agencies simultaneously." },
+                    tce: { es: "Reduce demoras en aduanas intermedias mediante acuerdos regionales.", en: "Reduces intermediate customs hold-up risks through regional trade protocols." }
+                },
+                downstream: {
+                    pros: { es: "Despacho aduanero ágil y resolución inmediata de alertas sanitarias.", en: "Fast customs clearance and immediate resolution of local health inspection holds." },
+                    cons: { es: "Exposición a solicitudes de sobornos o pagos informales de facilitación.", en: "Exposure to local informal facilitation fee demands or bureaucratic extortion." },
+                    tce: { es: "Reduce drásticamente el riesgo de secuestro de mercancías perecederas en puerto.", en: "Drastically reduces perishability hold-up risk at host country import ports." }
+                }
+            },
+            {
+                id: 13,
+                category: "General",
+                optimalZone: "downstream",
+                name: { es: "Logística Secundaria y Reposición a Tienda", en: "Secondary Logistics & Store Replenishment" },
+                desc: { es: "Despacho de última milla, rutas diarias y flota de transporte a sucursales.", en: "Last-mile dispatch, daily route optimization, and delivery fleet execution." },
+                upstream: {
+                    pros: { es: "Intento de planificar rutas desde un sistema centralizado de transporte.", en: "Centralized route planning attempt using group logistics software." },
+                    cons: { es: "Incapacidad de reaccionar a bloqueos, manifestaciones o clima local en tiempo real.", en: "Inability to respond to local traffic jams, road protests, or weather in real time." },
+                    tce: { es: "Desconexión entre la planificación en oficina central y la realidad vial.", en: "Mismatch between distant central planning and host city road realities." }
+                },
+                regional: {
+                    pros: { es: "Flotas regionales coordinadas para reabastecer a sucursales cercanas.", en: "Coordinated regional fleets supplying store clusters within a 300 km radius." },
+                    cons: { es: "Costos de peajes e impuestos de transporte transfronterizo.", en: "Cross-border transport taxes, permits, and highway toll expenses." },
+                    tce: { es: "Eficiente si la distancia entre tiendas de distintos países es reducida.", en: "Efficient if spatial distance between cross-border store nodes is minimal." }
+                },
+                downstream: {
+                    pros: { es: "Reabastecimiento diario ultra eficiente y flotas adaptadas al tamaño de calles.", en: "Ultra-fast daily store replenishment using trucks suited for local street widths." },
+                    cons: { es: "Costos operativos de flota local si la densidad de tiendas en la ciudad es baja.", en: "High fleet operating costs if local store network density remains low." },
+                    tce: { es: "Minimiza el costo de oportunidad por desabastecimiento de anaquel en hora pico.", en: "Minimizes stock-out opportunity costs during peak local store shopping hours." }
+                }
+            },
+            {
+                id: 14,
+                category: "General",
+                optimalZone: "downstream",
+                name: { es: "Operación Diaria de Tienda y Cajas", en: "Daily Store Floor & Checkout Operations" },
+                desc: { es: "Gestión de turnos de piso, atención al cliente y líneas de cajas.", en: "Floor shift scheduling, customer service, and checkout line management." },
+                upstream: {
+                    pros: { es: "Manuales de procedimientos operativos ultra rigurosos dictados desde la sede.", en: "Ultra-rigorous operational manual standards enforced from corporate HQ." },
+                    cons: { es: "Desconexión con la cultura de servicio y velocidad esperada por clientes locales.", en: "Disconnection from local customer service culture and checkout speed expectations." },
+                    tce: { es: "Inflexible para resolver crisis imprevistas en la línea de cajas.", en: "Rigid and unable to handle real-time customer floor disputes or store emergencies." }
+                },
+                regional: {
+                    pros: { es: "Supervisores regionales itinerantes auditando la calidad entre sucursales.", en: "Itinerant regional supervisors auditing operational quality across store nodes." },
+                    cons: { es: "Gastos constantes de viaje y viáticos de supervisores regionales.", en: "Continuous travel expenses and per diems for regional store auditors." },
+                    tce: { es: "Asegura el cumplimiento de estándares sin rigidez extrema.", en: "Maintains operational standard compliance without extreme home rigidity." }
+                },
+                downstream: {
+                    pros: { es: "Ejecución fluida en tienda, resolución rápida de quejas y liderazgo directo.", en: "Fluid store execution, rapid customer resolution, and direct local floor leadership." },
+                    cons: { es: "Riesgo de relajación de estándares de limpieza o disciplina operacional.", en: "Risk of store operational drift, poor housekeeping, or lax floor discipline." },
+                    tce: { es: "Optimización del activo humano downstream en la última milla del retail.", en: "Optimizes downstream human assets at the direct customer retail touchpoint." }
+                }
+            },
+            {
+                id: 15,
+                category: "General",
+                optimalZone: "downstream",
+                name: { es: "Reclutamiento y Gestión de Personal de Tienda", en: "Local Workforce Hiring & HR Management" },
+                desc: { es: "Contratación de cajeros, administradores y relaciones sindicales.", en: "Recruiting store clerks, store managers, and labor union relations." },
+                upstream: {
+                    pros: { es: "Políticas salariales y de equidad estandarizadas para todo el grupo corporativo.", en: "Standardized group-wide compensation frameworks and HR diversity policies." },
+                    cons: { es: "Choques severos con sindicatos locales, convenios colectivos y leyes laborales.", en: "Severe friction with local labor unions, collective bargaining, and dismissal laws." },
+                    tce: { es: "Gran fricción laboral y riesgo de huelgas por falta de empatía local.", en: "High labor transaction costs and strike risks caused by lack of local HR empathy." }
+                },
+                regional: {
+                    pros: { es: "Coordinación de capacitación y programas de liderazgo a nivel regional.", en: "Regional training coordination and management talent development programs." },
+                    cons: { es: "Sigue requiriendo abogados laboralistas especializados en cada país.", en: "Still requires specialized local labor attorneys in every host jurisdiction." },
+                    tce: { es: "Estandariza planes de carrera manteniendo cierta flexibilidad laboral.", en: "Standardizes career paths while allowing regional labor adaptation." }
+                },
+                downstream: {
+                    pros: { es: "Reclutamiento ágil de talento de barrio, excelentes relaciones sindicales.", en: "Agile neighborhood hiring, strong union relations, and zero labor fines." },
+                    cons: { es: "Posible nepotismo en contrataciones y variabilidad en la cultura corporativa.", en: "Risk of hiring favoritism and variance from core corporate culture values." },
+                    tce: { es: "Elimina la fricción legal en la gestión del activo humano local.", en: "Eliminates legal and administrative friction in managing local workforce assets." }
+                }
+            },
+            {
+                id: 16,
+                category: "FR",
+                optimalZone: "downstream",
+                name: { es: "Folletos Promocionales y Publicidad Local", en: "In-Market Promotional Circulars" },
+                desc: { es: "Encartes impresos, prensa local y promociones por 'La Quincena'.", en: "Print circular drops, local newspaper ads, and payday promotional cadence." },
+                upstream: {
+                    pros: { es: "Diseño gráfico consolidado a costo mínimo usando la agencia de la matriz.", en: "Consolidated graphic design at minimal cost using HQ central ad agency." },
+                    cons: { es: "Campañas desalineadas de las fechas de cobro locales (ej. 'La Quincena').", en: "Promotions misaligned with local payday cycles (e.g., 15th/30th cash injections)." },
+                    tce: { es: "Desperdicio de presupuesto de marketing por descontextualización cultural.", en: "Wasted marketing budget due to cultural and temporal misalignments." }
+                },
+                regional: {
+                    pros: { es: "Mensajes publicitarios unificados para el idioma o modismos de la región.", en: "Unified promotional themes across countries sharing regional idioms." },
+                    cons: { es: "Posible omisión de tradiciones y celebraciones locales específicas.", en: "Potential omission of country-specific holidays and cultural festivals." },
+                    tce: { es: "Balance costo-beneficio en producción de medios masivos (TV/Radio).", en: "Cost-benefit balance in producing regional mass media campaigns." }
+                },
+                downstream: {
+                    pros: { es: "Promociones adaptadas al calendario de pagos y modismos de la población.", en: "Promotions 100% matched to local payday calendars and neighborhood jargon." },
+                    cons: { es: "Mayores costos de imprenta por volumen pequeño e inconsistencia visual.", en: "Higher small-batch printing costs and potential visual brand drift." },
+                    tce: { es: "Maximiza la conversión de ventas al conectar con la psicología local.", en: "Maximizes sales conversion by leveraging local consumer buying psychology." }
+                }
+            },
+            {
+                id: 17,
+                category: "FR",
+                optimalZone: "downstream",
+                name: { es: "Adaptación Local de Planogramas", en: "Local Planogram Adaptation" },
+                desc: { es: "Distribución de espacio en anaquel según marcas de preferencia regional.", en: "Store shelf space allocation tailored to high-velocity regional brand demand." },
+                upstream: {
+                    pros: { es: "Distribución espacial idéntica para maximizar venta por metro cuadrado estándar.", en: "Identical shelf planogram maximizing global sales-per-square-meter metric." },
+                    cons: { es: "Asignación de espacio excesivo a marcas importadas sin demanda local.", en: "Wasted shelf space allocated to imported CPG brands lacking local popularity." },
+                    tce: { es: "Suboptimización del espacio de anaquel por ignorar la demanda real.", en: "Sub-optimization of shelf asset specificity by ignoring local shopper demand." }
+                },
+                regional: {
+                    pros: { es: "Planogramas regionales adaptados a categorías líderes en el bloque.", en: "Regional planograms tailored to dominant product categories across countries." },
+                    cons: { es: "Requiere actualización frecuente de software de merchandising.", en: "Requires continuous regional merchandising software updates." },
+                    tce: { es: "Ajuste de surtido eficiente por macro-categorías regionales.", en: "Efficient assortment adjustment across shared regional category clusters." }
+                },
+                downstream: {
+                    pros: { es: "Anaqueles dominados por las marcas locales líderes de alta rotación.", en: "Shelves dominated by high-turnover local brand favorites, boosting revenue." },
+                    cons: { es: "Pérdida de espacio negociado globalmente con grandes fabricantes.", en: "Loss of global display slotting fee revenues negotiated with Tier-1 vendors." },
+                    tce: { es: "Minimiza el costo de oportunidad por inventario no vendido en anaquel.", en: "Minimizes stock-holding opportunity costs of slow-moving inventory." }
+                }
+            },
+            {
+                id: 18,
+                category: "General",
+                optimalZone: "downstream",
+                name: { es: "Prevención de Mermas y Seguridad Física", en: "Store Loss Prevention & Security" },
+                desc: { es: "Seguridad electrónica, guardias en tienda y prevención de robo hormiga.", en: "Electronic article surveillance, security guards, and shoplifting prevention." },
+                upstream: {
+                    pros: { es: "Estándares de seguridad electrónica (CCTV IP) dictados desde HQ.", en: "Global IP CCTV electronic security standards specified by central HQ." },
+                    cons: { es: "Ignorancia de las modalidades locales de robo hormiga o extorsión.", en: "Blindness regarding specific local theft patterns or neighborhood extortion." },
+                    tce: { es: "Sistemas tecnológicos costosos que pueden no prevenir modalidades locales.", en: "High technology CapEx that fails to address host-specific shoplifting techniques." }
+                },
+                regional: {
+                    pros: { es: "Inteligencia de seguridad comparativa entre tiendas de la región.", en: "Comparative loss prevention intelligence across regional store networks." },
+                    cons: { es: "Dificultad para intervenir operativamente durante un incidente en vivo.", en: "Inability to intervene physically during a live store crime incident." },
+                    tce: { es: "Mejora la gestión de riesgos en redes de tiendas regionales.", en: "Improves risk assessment frameworks across regional store networks." }
+                },
+                downstream: {
+                    pros: { es: "Guardias locales integrados, rápida respuesta policial y control in situ.", en: "Local security guard deployment, rapid police dispatch, and direct floor control." },
+                    cons: { es: "Riesgo de colusión entre el personal de seguridad y empleados de tienda.", en: "Risk of internal collusion between local security guards and store clerks." },
+                    tce: { es: "Indispensable para controlar la merma en entornos urbanos complejos.", en: "Essential asset protection mechanism in complex urban retail environments." }
+                }
+            },
+            {
+                id: 19,
+                category: "FR",
+                optimalZone: "downstream",
+                name: { es: "Auditorías de Higiene y Seguridad Alimentaria", en: "Food Safety & Local Health Audits" },
+                desc: { es: "Controles sanitarios (HACCP), manejo de perecederos e inspecciones.", en: "Sanitation protocols (HACCP), food handler health cards, and municipal audits." },
+                upstream: {
+                    pros: { es: "Protocolos sanitarios ultra exigentes superiores a leyes locales del país.", en: "Ultra-strict HACCP protocols exceeding host country statutory minimums." },
+                    cons: { es: "Costosos de implementar en tiendas pequeñas o con proveedores locales.", en: "Overly costly for small discount stores or artisanal local farmers." },
+                    tce: { es: "Garantiza la reputación de la marca global contra escándalos alimentarios.", en: "Protects global brand equity against cross-border food contamination scandals." }
+                },
+                regional: {
+                    pros: { es: "Auditores independientes regionales que rotan evaluando la inocuidad.", en: "Rotating independent regional food safety auditors enforcing compliance." },
+                    cons: { es: "Costos de desplazamiento continuo de auditores regionales.", en: "Continuous travel and lodging expenses for regional audit teams." },
+                    tce: { es: "Mantiene un control de calidad objetivo e independiente de presiones.", en: "Maintains objective quality control free from local store operational bias." }
+                },
+                downstream: {
+                    pros: { es: "Relación fluida con inspectores de salud municipales y respuesta ágil.", en: "Smooth relationships with municipal health inspectors and fast permit renewals." },
+                    cons: { es: "Riesgo de ceder a prácticas de laxitud o pagos informales.", en: "Risk of slipping into lax hygiene habits or informal compliance shortcuts." },
+                    tce: { es: "Minimiza el riesgo de clausura inmediata de tienda por entes locales.", en: "Minimizes immediate store shutdown risks by local municipal health officers." }
+                }
+            },
+            {
+                id: 20,
+                category: "General",
+                optimalZone: "downstream",
+                name: { es: "Relaciones con Desarrolladores Inmobiliarios", en: "Local Real Estate Developer Relations" },
+                desc: { es: "Alianzas con grupos inmobiliarios comerciales (ej. Spectrum) y arrendamiento.", en: "Commercial developer alliances (e.g., Spectrum), shopping node anchors, and long-term leases." },
+                upstream: {
+                    pros: { es: "Contratos marco de arrendamiento redactados por el bufete legal de HQ.", en: "Master lease agreements drafted by HQ corporate legal counsel." },
+                    cons: { es: "Rigidez contractual que hace que desarrolladores prefieran a la competencia.", en: "Legal rigidity causing top developers to award prime sites to rivals." },
+                    tce: { es: "Protección legal máxima pero alto riesgo de perder oportunidades clave.", en: "Maximum legal risk protection but high opportunity loss of prime real estate." }
+                },
+                regional: {
+                    pros: { es: "Negociación con grupos inmobiliarios que operan en múltiples países.", en: "Negotiating master tenant deals with regional mall developers across borders." },
+                    cons: { es: "Menor atención a desarrolladores independientes de ciudades secundarias.", en: "Less focus on independent site owners in secondary provincial cities." },
+                    tce: { es: "Economías de escala en alianzas inmobiliarias transfronterizas.", en: "Economies of scale in cross-border real estate anchor tenancy deals." }
+                },
+                downstream: {
+                    pros: { es: "Cierre rápido de tratos de arrendamiento con propietarios locales clave.", en: "Fast lease execution with key local landowners and municipal developers." },
+                    cons: { es: "Riesgo de firmar contratos con cláusulas leoninas o títulos dudosos.", en: "Risk of entering unfavorable lease terms or defective land title deeds." },
+                    tce: { es: "Exige riguroso Due Diligence local para evitar secuestros contractuales.", en: "Requires rigorous local legal due diligence to prevent long-term lease hold-up." }
+                }
+            },
+            {
+                id: 21,
+                category: "General",
+                optimalZone: "downstream",
+                name: { es: "Marketing Local e Inauguraciones", en: "In-Store Local Marketing & PR" },
+                desc: { es: "Eventos de apertura de sucursal, relaciones comunitarias y activaciones.", en: "Grand opening branch events, neighborhood PR outreach, and store launch activations." },
+                upstream: {
+                    pros: { es: "Identidad visual de inauguración pulida y alineada con la marca global.", en: "Polished visual opening assets strictly aligned with corporate guidelines." },
+                    cons: { es: "Eventos fríos que no logran conectar con la comunidad ni vecinos.", en: "Stiff launch events failing to connect with local neighborhood residents." },
+                    tce: { es: "Bajo costo de adaptación pero bajo impacto emocional en el cliente inicial.", en: "Low adaptation cost but weak emotional resonance with local shoppers." }
+                },
+                regional: {
+                    pros: { es: "Equipos de marketing regional coordinando aperturas en el país.", en: "Regional PR teams coordinating simultaneous multi-store market entries." },
+                    cons: { es: "Inversión en agencias de relaciones públicas regionales costosas.", en: "High retainer costs for regional PR agencies with generic outreach." },
+                    tce: { es: "Maximiza la visibilidad de marca en el lanzamiento de nuevas filiales.", en: "Maximizes regional brand awareness during initial subsidiary launches." }
+                },
+                downstream: {
+                    pros: { es: "Fiestas de apertura comunitarias y gran impacto emocional de barrio.", en: "Community launch parties, local food tasting, and strong neighborhood buzz." },
+                    cons: { es: "Riesgo de eventos desorganizados que proyecten una imagen informal.", en: "Risk of disorganized opening events projecting an unpolished brand image." },
+                    tce: { es: "Construye capital social y lealtad comunitaria inmediata en el punto de venta.", en: "Builds immediate social capital and customer loyalty at the new store." }
+                }
+            }
+        ];
+
+        // APPLICATION STATE MANAGEMENT
+        let state = {
+            lang: 'es', // 'es' or 'en'
+            activeCategoryFilter: 'all',
+            activeInspectedId: 1, // Default F-01
+            assignments: {} // { 1: 'upstream' | 'regional' | 'downstream' }
+        };
+
+        function initAssignments() {
+            valueChainFunctions.forEach(f => {
+                state.assignments[f.id] = null; // unassigned by default
+            });
+        }
+
+        // RENDERING DASHBOARD & FUNCTIONS LIST
+        function renderDashboard() {
+            const l = state.lang;
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const listContainer = document.getElementById('functions-list-container');
+            listContainer.innerHTML = '';
+
+            let assignedTotal = 0;
+            let counts = { upstream: 0, regional: 0, downstream: 0 };
+            let correctCount = 0;
+
+            valueChainFunctions.forEach(func => {
+                const choice = state.assignments[func.id];
+                if (choice) {
+                    assignedTotal++;
+                    counts[choice]++;
+                    if (choice === func.optimalZone) correctCount++;
+                }
+
+                // Filters
+                if (state.activeCategoryFilter !== 'all' && func.category !== state.activeCategoryFilter) return;
+                if (searchQuery && !func.name[l].toLowerCase().includes(searchQuery) && !func.desc[l].toLowerCase().includes(searchQuery)) return;
+
+                // Card Creation
+                const isInspected = state.activeInspectedId === func.id;
+                const card = document.createElement('div');
+                card.className = `card-item glass-card p-3 rounded-xl border border-slate-700/80 shadow-md cursor-pointer space-y-2 relative ${isInspected ? 'active-inspect bg-slate-900/90' : 'hover:border-slate-600'}`;
+                card.onclick = () => inspectFunction(func.id);
+
+                const upstreamSelected = choice === 'upstream';
+                const regionalSelected = choice === 'regional';
+                const downstreamSelected = choice === 'downstream';
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between gap-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-700">F-${func.id < 10 ? '0'+func.id : func.id}</span>
+                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded ${func.category === 'NFR' ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30' : func.category === 'FR' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-400 border border-slate-700'}">${func.category}</span>
+                        </div>
+                        <span class="text-[10px] text-slate-400 font-mono"><i class="fa-solid fa-eye text-indigo-400 mr-1"></i>${l === 'es' ? 'Inspeccionar' : 'Inspect'}</span>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold text-white leading-snug">${func.name[l]}</h4>
+                        <p class="text-[11px] text-slate-400 leading-tight mt-0.5">${func.desc[l]}</p>
+                    </div>
+
+                    <!-- 3-CHOICE SELECTION BUTTONS -->
+                    <div class="flex items-center space-x-1.5 pt-1.5 border-t border-slate-800/80" onclick="event.stopPropagation()">
+                        <button onclick="setChoice(${func.id}, 'upstream')" class="flex-1 py-1 px-1.5 rounded-lg text-[10px] font-bold transition flex items-center justify-center space-x-1 ${upstreamSelected ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30' : 'bg-slate-900 hover:bg-slate-800 text-slate-400 border border-slate-800'}">
+                            <span class="w-1.5 h-1.5 rounded-full ${upstreamSelected ? 'bg-white' : 'bg-indigo-400'}"></span>
+                            <span>${uiText[l].btnOptUpstream}</span>
+                        </button>
+
+                        <button onclick="setChoice(${func.id}, 'regional')" class="flex-1 py-1 px-1.5 rounded-lg text-[10px] font-bold transition flex items-center justify-center space-x-1 ${regionalSelected ? 'bg-amber-600 text-white shadow-md shadow-amber-500/30' : 'bg-slate-900 hover:bg-slate-800 text-slate-400 border border-slate-800'}">
+                            <span class="w-1.5 h-1.5 rounded-full ${regionalSelected ? 'bg-white' : 'bg-amber-400'}"></span>
+                            <span>${uiText[l].btnOptRegional}</span>
+                        </button>
+
+                        <button onclick="setChoice(${func.id}, 'downstream')" class="flex-1 py-1 px-1.5 rounded-lg text-[10px] font-bold transition flex items-center justify-center space-x-1 ${downstreamSelected ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/30' : 'bg-slate-900 hover:bg-slate-800 text-slate-400 border border-slate-800'}">
+                            <span class="w-1.5 h-1.5 rounded-full ${downstreamSelected ? 'bg-white' : 'bg-emerald-400'}"></span>
+                            <span>${uiText[l].btnOptDownstream}</span>
+                        </button>
+                    </div>
+                `;
+
+                listContainer.appendChild(card);
+            });
+
+            // Update Header Stats & Progress Bar
+            document.getElementById('stat-assigned-count').innerText = `${assignedTotal} / 21`;
+            const fitPct = assignedTotal > 0 ? Math.round((correctCount / 21) * 100) : 0;
+            document.getElementById('score-fit-percent').innerText = `${fitPct}%`;
+
+            const pctUpstream = Math.round((counts.upstream / 21) * 100);
+            const pctRegional = Math.round((counts.regional / 21) * 100);
+            const pctDownstream = Math.round((counts.downstream / 21) * 100);
+
+            document.getElementById('bar-upstream').style.width = `${pctUpstream}%`;
+            document.getElementById('bar-regional').style.width = `${pctRegional}%`;
+            document.getElementById('bar-downstream').style.width = `${pctDownstream}%`;
+
+            document.getElementById('pct-upstream').innerText = `${counts.upstream} (${pctUpstream}%)`;
+            document.getElementById('pct-regional').innerText = `${counts.regional} (${pctRegional}%)`;
+            document.getElementById('pct-downstream').innerText = `${counts.downstream} (${pctDownstream}%)`;
+
+            // Render Inspector Panel for Active Function
+            renderInspector();
+        }
+
+        function setChoice(funcId, choice) {
+            state.assignments[funcId] = choice;
+            state.activeInspectedId = funcId;
+            renderDashboard();
+        }
+
+        function inspectFunction(funcId) {
+            state.activeInspectedId = funcId;
+            renderDashboard();
+        }
+
+        // RENDERING DYNAMIC CONSEQUENCES INSPECTOR (GUARDED AGAINST UNDEFINED)
+        function getSafeText(obj, field, lang) {
+            if (obj && obj[field] && obj[field][lang] !== undefined && obj[field][lang] !== null) {
+                return obj[field][lang];
+            }
+            return '';
+        }
+
+        function renderInspector() {
+            const l = state.lang;
+            const func = valueChainFunctions.find(f => f.id === state.activeInspectedId) || valueChainFunctions[0];
+            const currentChoice = state.assignments[func.id];
+
+            document.getElementById('inspect-func-id-badge').innerText = `F-${func.id < 10 ? '0'+func.id : func.id}`;
+            document.getElementById('inspect-func-title').innerText = getSafeText(func, 'name', l);
+
+            // Current Choice Status Badge
+            const statusEl = document.getElementById('inspect-choice-status');
+            if (currentChoice === 'upstream') {
+                statusEl.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/40";
+                statusEl.innerText = uiText[l].btnOptUpstream;
+            } else if (currentChoice === 'regional') {
+                statusEl.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40";
+                statusEl.innerText = uiText[l].btnOptRegional;
+            } else if (currentChoice === 'downstream') {
+                statusEl.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+                statusEl.innerText = uiText[l].btnOptDownstream;
+            } else {
+                statusEl.className = "px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 text-slate-400 border border-slate-700";
+                statusEl.innerText = uiText[l].unassigned;
+            }
+
+            // Fill Upstream Consequences safely
+            const upPros = getSafeText(func.upstream, 'pros', l);
+            const upCons = getSafeText(func.upstream, 'cons', l);
+            const upTce = getSafeText(func.upstream, 'tce', l);
+
+            document.getElementById('cons-upstream-pros').innerText = upPros || '-';
+            document.getElementById('cons-upstream-cons').innerText = upCons || '-';
+            document.getElementById('cons-upstream-tce').innerText = upTce;
+            document.getElementById('cons-upstream-tce').parentElement.style.display = upTce ? 'block' : 'none';
+
+            // Fill Regional Consequences safely
+            const regPros = getSafeText(func.regional, 'pros', l);
+            const regCons = getSafeText(func.regional, 'cons', l);
+            const regTce = getSafeText(func.regional, 'tce', l);
+
+            document.getElementById('cons-regional-pros').innerText = regPros || '-';
+            document.getElementById('cons-regional-cons').innerText = regCons || '-';
+            document.getElementById('cons-regional-tce').innerText = regTce;
+            document.getElementById('cons-regional-tce').parentElement.style.display = regTce ? 'block' : 'none';
+
+            // Fill Downstream Consequences safely
+            const downPros = getSafeText(func.downstream, 'pros', l);
+            const downCons = getSafeText(func.downstream, 'cons', l);
+            const downTce = getSafeText(func.downstream, 'tce', l);
+
+            document.getElementById('cons-downstream-pros').innerText = downPros || '-';
+            document.getElementById('cons-downstream-cons').innerText = downCons || '-';
+            document.getElementById('cons-downstream-tce').innerText = downTce;
+            document.getElementById('cons-downstream-tce').parentElement.style.display = downTce ? 'block' : 'none';
+
+            // Recommended Badges
+            document.getElementById('badge-opt-upstream').classList.toggle('hidden', func.optimalZone !== 'upstream');
+            document.getElementById('badge-opt-regional').classList.toggle('hidden', func.optimalZone !== 'regional');
+            document.getElementById('badge-opt-downstream').classList.toggle('hidden', func.optimalZone !== 'downstream');
+
+            // Highlight Chosen Box
+            const boxUpstream = document.getElementById('box-cons-upstream');
+            const boxRegional = document.getElementById('box-cons-regional');
+            const boxDownstream = document.getElementById('box-cons-downstream');
+
+            boxUpstream.className = `bg-slate-900/80 p-3.5 rounded-xl border space-y-2 transition-all ${currentChoice === 'upstream' ? 'border-indigo-500 ring-2 ring-indigo-500/30 bg-indigo-950/20' : 'border-slate-800'}`;
+            boxRegional.className = `bg-slate-900/80 p-3.5 rounded-xl border space-y-2 transition-all ${currentChoice === 'regional' ? 'border-amber-500 ring-2 ring-amber-500/30 bg-amber-950/20' : 'border-slate-800'}`;
+            boxDownstream.className = `bg-slate-900/80 p-3.5 rounded-xl border space-y-2 transition-all ${currentChoice === 'downstream' ? 'border-emerald-500 ring-2 ring-emerald-500/30 bg-emerald-950/20' : 'border-slate-800'}`;
+        }
+
+        // ACTIONS & CONTROLS
+        function autoBenchmark() {
+            valueChainFunctions.forEach(f => {
+                state.assignments[f.id] = f.optimalZone;
+            });
+            renderDashboard();
+        }
+
+        function resetMatrix() {
+            initAssignments();
+            renderDashboard();
+        }
+
+        function setFilter(cat) {
+            state.activeCategoryFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.className = "filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-800 text-slate-400 hover:text-white transition";
+            });
+            const activeId = cat === 'all' ? 'filter-all' : cat === 'NFR' ? 'filter-nfr' : cat === 'FR' ? 'filter-fr' : 'filter-gen';
+            document.getElementById(activeId).className = "filter-btn px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-600 text-white transition";
+            renderDashboard();
+        }
+
+        function toggleLanguage() {
+            state.lang = state.lang === 'es' ? 'en' : 'es';
+            const l = state.lang;
+
+            document.getElementById('lang-toggle-text').innerText = l === 'es' ? '🇲🇽 Español' : '🇺🇸 English';
+
+            document.getElementById('ui-title').innerText = uiText[l].title;
+            document.getElementById('ui-subtitle').innerText = uiText[l].subtitle;
+            document.getElementById('lbl-btn-benchmark').innerText = uiText[l].btnBenchmark;
+            document.getElementById('lbl-btn-reset').innerText = uiText[l].btnReset;
+            document.getElementById('lbl-btn-slide').innerText = uiText[l].btnSlide;
+            
+            document.getElementById('lbl-metrics-title').querySelector('span').innerText = uiText[l].metricsTitle;
+            document.getElementById('lbl-metrics-sub').innerText = uiText[l].metricsSub;
+            document.getElementById('lbl-assigned-count-tag').innerText = uiText[l].assignedCountTag;
+            document.getElementById('lbl-strategic-alignment').innerText = uiText[l].strategicAlignment;
+
+            document.getElementById('lbl-legend-hq').innerText = uiText[l].legendHq;
+            document.getElementById('lbl-legend-hub').innerText = uiText[l].legendHub;
+            document.getElementById('lbl-legend-host').innerText = uiText[l].legendHost;
+
+            document.getElementById('search-input').placeholder = uiText[l].searchPlaceholder;
+            document.getElementById('filter-all').innerText = uiText[l].filterAll;
+
+            document.getElementById('lbl-inspector-tag').innerText = uiText[l].inspectorTag;
+            document.getElementById('lbl-inspect-current-choice').innerText = uiText[l].inspectCurrentChoice;
+            document.getElementById('lbl-consequences-matrix-head').querySelector('span').innerText = uiText[l].consequencesHead;
+
+            document.getElementById('lbl-upstream-pros').innerText = uiText[l].pros;
+            document.getElementById('lbl-upstream-cons').innerText = uiText[l].cons;
+            document.getElementById('lbl-upstream-tce').innerText = uiText[l].tce;
+
+            document.getElementById('lbl-hub-pros').innerText = uiText[l].pros;
+            document.getElementById('lbl-hub-cons').innerText = uiText[l].cons;
+            document.getElementById('lbl-hub-tce').innerText = uiText[l].tce;
+
+            document.getElementById('lbl-host-pros').innerText = uiText[l].pros;
+            document.getElementById('lbl-host-cons').innerText = uiText[l].cons;
+            document.getElementById('lbl-host-tce').innerText = uiText[l].tce;
+
+            document.getElementById('lbl-board-modal-title').innerText = uiText[l].boardModalTitle;
+            document.getElementById('lbl-board-layer1').innerText = uiText[l].boardLayer1;
+            document.getElementById('lbl-board-layer2').innerText = uiText[l].boardLayer2;
+
+            document.getElementById('lbl-modal-stat-hq').innerText = uiText[l].modalStatHq;
+            document.getElementById('lbl-modal-stat-hq-sub').innerText = uiText[l].modalStatHqSub;
+            document.getElementById('lbl-modal-stat-hub').innerText = uiText[l].modalStatHub;
+            document.getElementById('lbl-modal-stat-hub-sub').innerText = uiText[l].modalStatHubSub;
+            document.getElementById('lbl-modal-stat-host').innerText = uiText[l].modalStatHost;
+            document.getElementById('lbl-modal-stat-host-sub').innerText = uiText[l].modalStatHostSub;
+            document.getElementById('lbl-modal-summary-head').innerText = uiText[l].modalSummaryHead;
+            document.getElementById('lbl-modal-footer').innerText = uiText[l].modalFooter;
+            document.getElementById('lbl-btn-print').innerText = uiText[l].btnPrint;
+            document.getElementById('lbl-btn-copy-text').innerText = uiText[l].btnCopyText;
+
+            renderDashboard();
+        }
+
+        // EXECUTIVE BOARD SLIDE MODAL
+        function openExecutiveDeckModal() {
+            const l = state.lang;
+            const counts = { upstream: 0, regional: 0, downstream: 0, unassigned: 0 };
+            
+            valueChainFunctions.forEach(f => {
+                const choice = state.assignments[f.id] || 'unassigned';
+                counts[choice]++;
+            });
+
+            document.getElementById('board-stat-upstream').innerText = `${counts.upstream} (${Math.round((counts.upstream/21)*100)}%)`;
+            document.getElementById('board-stat-regional').innerText = `${counts.regional} (${Math.round((counts.regional/21)*100)}%)`;
+            document.getElementById('board-stat-downstream').innerText = `${counts.downstream} (${Math.round((counts.downstream/21)*100)}%)`;
+
+            document.getElementById('board-punchline-text').innerText = l === 'es'
+                ? `La matriz desacopla las 21 funciones retail centralizando la tecnología (ERP), marca propia y compras CapEx (NFR) en la Matriz para maximizar economías de escala. El Hub Regional absorbe la amortiguación logística, mientras que la operación de tiendas, abastecimiento fresco (FR) y gestión laboral se descentralizan en el mercado destino para eliminar fricciones y responder al consumidor local.`
+                : `The matrix decouples 21 retail functions by centralizing core data systems (ERP), private-label IP, and CapEx procurement (NFR) at Corporate HQ for scale economies. The Regional Hub handles logistics staging, while daily store operations, fresh food procurement (FR), and local labor management are decentralized in the host market to minimize market friction.`;
+
+            // Table Annex Rows
+            const tbody = document.getElementById('board-table-body');
+            tbody.innerHTML = '';
+
+            valueChainFunctions.forEach(f => {
+                const choice = state.assignments[f.id] || 'unassigned';
+                let zoneBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400">${uiText[l].unassigned}</span>`;
+                let consText = getSafeText(f.upstream, 'pros', l);
+
+                if (choice === 'upstream') {
+                    zoneBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">1. Upstream (HQ)</span>`;
+                    consText = getSafeText(f.upstream, 'pros', l);
+                } else if (choice === 'regional') {
+                    zoneBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">2. Hub Regional</span>`;
+                    consText = getSafeText(f.regional, 'pros', l);
+                } else if (choice === 'downstream') {
+                    zoneBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">3. Downstream (Host)</span>`;
+                    consText = getSafeText(f.downstream, 'pros', l);
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-900/40 transition";
+                tr.innerHTML = `
+                    <td class="p-2.5 font-bold text-white">F-${f.id < 10 ? '0'+f.id : f.id}: ${f.name[l]}</td>
+                    <td class="p-2.5"><span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${f.category === 'NFR' ? 'bg-blue-500/20 text-blue-300' : f.category === 'FR' ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">${f.category}</span></td>
+                    <td class="p-2.5">${zoneBadge}</td>
+                    <td class="p-2.5 text-slate-400 text-[11px]">${consText}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('modal-board').classList.remove('hidden');
+        }
+
+        function closeBoardModal() {
+            document.getElementById('modal-board').classList.add('hidden');
+        }
+
+        function copyBoardDeckText() {
+            const l = state.lang;
+            let text = `GLOBAL RETAIL VALUE CHAIN DECOUPLING MATRIX (21 FUNCTIONS)\n`;
+            text += `SUMMARY REPORT\n\n`;
+
+            valueChainFunctions.forEach(f => {
+                const choice = (state.assignments[f.id] || 'unassigned').toUpperCase();
+                text += `[${choice}] F-${f.id}: ${f.name[l]} (${f.category})\n`;
+            });
+
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            const toastMsg = uiText[l].copiedToast;
+            const toast = document.createElement("div");
+            toast.className = "fixed bottom-5 right-5 bg-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-2xl z-50 transition-opacity duration-300";
+            toast.innerText = toastMsg;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 2000);
+        }
+
+        // INITIALIZATION
+        window.onload = function() {
+            initAssignments();
+            renderDashboard();
+        };
+    </script>
+</body>
+</html>
